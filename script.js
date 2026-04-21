@@ -20,6 +20,7 @@ function controlGame() {
     [2, 4, 6],
   ];
   let winner;
+  let gameOver = false;
 
   const getIndexes = (board) => {
     let xIndexes = [];
@@ -58,13 +59,32 @@ function controlGame() {
     });
   };
 
-  return { identifyWinner };
-}
+  const checkGameOver = (board) => {
+    let notEmpty = [];
+    board.forEach((element) => {
+      if (element != "") {
+        notEmpty.pushEmpty;
+      }
+    });
 
-function createPlayers(move) {
-  const getMove = () => {
-    return { move };
+    if (notEmpty.length == 9) {
+      gameOver = true;
+    }
   };
 
-  return { getMove };
+  return { identifyWinner, checkGameOver };
+}
+
+function createPlayers() {
+  const moves = [];
+
+  const addMove = (move) => {
+    moves.push(move);
+  };
+
+  const getMoves = () => {
+    return { moves };
+  };
+
+  return { addMove, getMoves };
 }
