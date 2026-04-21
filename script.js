@@ -5,7 +5,13 @@ const gameboard = (() => {
     return { board };
   };
 
-  return { getBoard };
+  const addMoveToBoard = (move, index) => {
+    if (board[index] != "") {
+      board.splice(index, 1, move);
+    }
+  };
+
+  return { getBoard, addMoveToBoard };
 })();
 
 function controlGame() {
@@ -76,15 +82,9 @@ function controlGame() {
 }
 
 function createPlayers() {
-  const moves = [];
-
-  const addMove = (move) => {
-    moves.push(move);
-  };
-
   const getMoves = () => {
     return { moves };
   };
 
-  return { addMove, getMoves };
+  return { getMoves };
 }
