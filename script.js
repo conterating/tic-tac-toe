@@ -36,14 +36,24 @@ function controlGame() {
     return { xIndexes, oIndexes };
   };
 
-  const identifyWinner = (idxs) => {
+  const xWinner = () => {
+    winner = "X's Win";
+    return { winner };
+  };
+
+  const oWinner = () => {
+    winner = "O's Win";
+    return { winner };
+  };
+
+  const identifyWinner = () => {
     const { xIdx, oIdx } = getIndexes(gameboard.getBoard());
 
     winningCombinations.forEach((element) => {
       if (JSON.stringify(xIdx) == JSON.stringify(element)) {
-        winner = "X's Win";
+        xWinner();
       } else if (JSON.stringify(oIdx) == JSON.stringify(element)) {
-        winner = "O's Win";
+        oWinner();
       }
     });
   };
