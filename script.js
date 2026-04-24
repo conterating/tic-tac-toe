@@ -8,20 +8,18 @@ const gameboard = (() => {
   };
 })();
 
-function createPlayer(side) {
-  return {
-    side,
-  };
-}
-
-function makeMove(side, index) {
+function Player(side) {
   board = gameboard.getBoard();
 
-  return function addMoveToBoard() {
+  function addMoveToBoard(index) {
     board.splice(index, 1, side);
     console.log(board);
+  }
+
+  return {
+    addMoveToBoard,
   };
 }
 
-x3 = makeMove("x", 3);
-x3();
+xUser = Player("x");
+xUser.addMoveToBoard(2);
