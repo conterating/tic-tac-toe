@@ -1,33 +1,5 @@
 const Gameboard = (() => {
-  const board = ["x", "x", "o", "x", "o", "o", "x", "o", "x"];
-
-  return {
-    getBoard() {
-      return board;
-    },
-  };
-})();
-
-function createPlayer(side) {
-  board = Gameboard.getBoard();
-
-  function addMoveToBoard(index) {
-    if (board[index] == "") {
-      board.splice(index, 1, side);
-      console.log(board);
-    } else {
-      console.log("That spot is taken already!");
-    }
-  }
-
-  return {
-    addMoveToBoard,
-  };
-}
-
-const gameController = (() => {
-  board = Gameboard.getBoard();
-
+  const board = ["", "", "", "", "", "", "", "", ""];
   const winningIdxs = [
     [0, 1, 2],
     [3, 4, 5],
@@ -43,6 +15,10 @@ const gameController = (() => {
   let oIdxs = [];
   let winner;
 
+  function getBoard() {
+    return board;
+  }
+
   function addIndices() {
     for (let i = 0; i < board.length; i++) {
       if (board[i] == "x") {
@@ -53,7 +29,7 @@ const gameController = (() => {
     }
   }
 
-  function checkWinner() {
+  function declareWinner() {
     for (let arr in winningIdxs) {
       let xWins = winningIdxs[arr].every((val) => xIdxs.includes(val));
       let oWins = winningIdxs[arr].every((val) => oIdxs.includes(val));
@@ -72,9 +48,47 @@ const gameController = (() => {
     return winner;
   }
 
-  function getIndices() {
-    return { xIdxs, oIdxs };
+  return {
+    getBoard,
+    addIndices,
+    declareWinner,
+  };
+})();
+
+function createPlayer(side) {
+  board = Gameboard.getBoard();
+
+  function makeMove(index) {
+    if (board[index] == "") {
+      board.splice(index, 1, side);
+      console.log(board);
+    } else {
+      console.log("That spot is taken already!");
+    }
   }
 
-  return { addIndices, checkWinner, getIndices };
-})();
+  return {
+    makeMove,
+  };
+}
+
+function controlGame() {
+  const player1 = createPlayer("x");
+  const player2 = createPlayer("o");
+
+  player1.makeMove("0");
+  player2.makeMove("3");
+  player1.makeMove("5");
+  player2.makeMove("4");
+  player1.makeMove("8");
+  player2.makeMove("6");
+  player1.makeMove("7");
+  player2.makeMove("2");
+  player1.makeMove("1");
+
+  Gameboard.addIndices();
+  const winner = Gameboard.declareWinner();
+  console.log(winner);
+}
+
+controlGame();

@@ -1,18 +1,13 @@
-const nestedArray = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [9, 10, 11],
-  [12, 13, 14],
-];
+function checkGameOver() {
+  board = ["x", "o", "x", "x", "o", "o", "x", "o", "o"];
+  let filledSquares = 0;
 
-const xIdxs = [0, 1, 3, 2];
-
-for (let arr in nestedArray) {
-  const isSubset = nestedArray[arr].every((val) => xIdxs.includes(val));
-
-  if (isSubset) {
-    console.log("yayyyy");
-    break;
+  for (let i = 0; i < board.length; i++) {
+    if (board[i] == "x" || board[i] == "o") {
+      filledSquares += 1;
+      console.log(filledSquares);
+    }
   }
 }
+
+checkGameOver();
