@@ -72,7 +72,9 @@ function createPlayer(side) {
   };
 }
 
-function controlGame() {
+const controlGame = (() => {
+  board = Gameboard.getBoard();
+
   const player1 = createPlayer("x");
   const player2 = createPlayer("o");
 
@@ -87,8 +89,12 @@ function controlGame() {
   player1.makeMove("1");
 
   Gameboard.addIndices();
-  const winner = Gameboard.declareWinner();
-  console.log(winner);
-}
 
-controlGame();
+  const filled = board.every((str) => str !== "");
+  if (filled) {
+    const winner = Gameboard.declareWinner();
+    console.log(winner);
+  } else {
+    console.log("board isnt full");
+  }
+})();
