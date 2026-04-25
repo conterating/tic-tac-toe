@@ -1,5 +1,5 @@
 const Gameboard = (() => {
-  const board = ["x", "x", "x", "", "", "", "", "", ""];
+  const board = ["x", "x", "o", "x", "o", "o", "x", "o", "x"];
 
   return {
     getBoard() {
@@ -54,29 +54,27 @@ const gameController = (() => {
   }
 
   function checkWinner() {
-    let counter = 0;
-
     for (let arr in winningIdxs) {
-      if (JSON.stringify(winningIdxs[arr]) == JSON.stringify(xIdxs)) {
-        winner = "X's Won!!!!";
-        break;
-      } else if (JSON.stringify(winningIdxs[arr]) == JSON.stringify(oIdxs)) {
-        winner = "O's Won!!!!";
-        break;
-      }
+      let xWins = winningIdxs[arr].every((val) => xIdxs.includes(val));
+      let oWins = winningIdxs[arr].every((val) => oIdxs.includes(val));
 
-      counter += 1;
-
-      if (counter == 8) {
-        winner = "Draw....";
+      if (xWins) {
+        winner = "X's Win!!!!";
+        break;
+      } else if (oWins) {
+        winner = "O's Win!!!";
+        break;
+      } else {
+        winner = "draw";
       }
     }
 
     return winner;
   }
 
-  return { addIndices, checkWinner };
-})();
+  function getIndices() {
+    return { xIdxs, oIdxs };
+  }
 
-gameController.addIndices();
-console.log(gameController.checkWinner());
+  return { addIndices, checkWinner, getIndices };
+})();

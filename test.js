@@ -6,6 +6,13 @@ const nestedArray = [
   [12, 13, 14],
 ];
 
+const xIdxs = [0, 1, 3, 2];
+
 for (let arr in nestedArray) {
-  console.log(nestedArray[arr]);
+  const isSubset = nestedArray[arr].every((val) => xIdxs.includes(val));
+
+  if (isSubset) {
+    console.log("yayyyy");
+    break;
+  }
 }
