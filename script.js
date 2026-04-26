@@ -98,3 +98,9 @@ const controlGame = (() => {
     console.log("board isnt full");
   }
 })();
+
+const displayController = () => {
+  board = Gameboard.getBoard();
+
+  function updateScreen() {}
+};
