@@ -48,32 +48,82 @@ const Gameboard = (() => {
     return winner;
   }
 
-  return {
-    getBoard,
-    addIndices,
-    declareWinner,
-  };
-})();
-
-function createPlayer(side) {
-  board = Gameboard.getBoard();
-
-  function makeMove(index) {
+  function makeMove(player, index) {
     if (board[index] == "") {
-      board.splice(index, 1, side);
-      console.log(board);
+      board.splice(index, 1, player.getSide());
     } else {
-      console.log("That spot is taken already!");
+      console.log("That spot is already taken");
     }
   }
 
   return {
+    getBoard,
+    addIndices,
+    declareWinner,
     makeMove,
+  };
+})();
+
+function createPlayer(name, side) {
+  function getName() {
+    return name;
+  }
+
+  function getSide() {
+    return side;
+  }
+
+  return {
+    getName,
+    getSide,
   };
 }
 
-const controlGame = (() => {
-  board = Gameboard.getBoard();
+function GameController() {
+  const board = Gameboard.getBoard();
+
+  const player1 = createPlayer("Player 1", "x");
+  const player2 = createPlayer("Player 2", "o");
+
+  const players = [player1, player2];
+
+  let activePlayer = players[0];
+
+  const switchPlayerTurn = () => {
+    activePlayer = activePlayer === players[0] ? players[1] : players[0];
+  };
+
+  const getActivePlayer = () => {
+    return activePlayer;
+  };
+
+  const playRound = (index) => {
+    console.log(
+      `${getActivePlayer().getName()} put an ${getActivePlayer().getSide()} at ${index}`,
+    );
+
+    Gameboard.makeMove(getActivePlayer(), index);
+    console.log(Gameboard.getBoard());
+
+    switchPlayerTurn();
+  };
+
+  return {
+    playRound,
+    getActivePlayer,
+  };
+}
+
+const game = GameController();
+game.playRound(3);
+game.playRound(2);
+
+/*
+const GameController = (() => {
+  //add GameController.playRound()
+  //active player functionality
+
+  const board = Gameboard.getBoard();
 
   const player1 = createPlayer("x");
   const player2 = createPlayer("o");
@@ -98,9 +148,11 @@ const controlGame = (() => {
     console.log("board isnt full");
   }
 })();
-
-const displayController = () => {
-  board = Gameboard.getBoard();
+*/
+const ScreenController = () => {
+  const board = Gameboard.getBoard();
 
   function updateScreen() {}
+
+  function clickHandlerBoard() {}
 };
