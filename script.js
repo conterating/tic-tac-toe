@@ -19,6 +19,16 @@ const Gameboard = (() => {
     return board;
   }
 
+  function boardFull() {
+    const allFilled = board.every((element) => {
+      element != "";
+    });
+
+    if (allFilled) {
+      return true;
+    }
+  }
+
   function addIndices() {
     for (let i = 0; i < board.length; i++) {
       if (board[i] == "x") {
@@ -30,22 +40,21 @@ const Gameboard = (() => {
   }
 
   function declareWinner() {
+    addIndices();
     for (let arr in winningIdxs) {
       let xWins = winningIdxs[arr].every((val) => xIdxs.includes(val));
       let oWins = winningIdxs[arr].every((val) => oIdxs.includes(val));
 
       if (xWins) {
         winner = "X's Win!!!!";
-        break;
+        return winner;
       } else if (oWins) {
         winner = "O's Win!!!";
-        break;
-      } else {
+        return winner;
+      } else if (boardFull()) {
         winner = "draw";
       }
     }
-
-    return winner;
   }
 
   function makeMove(player, index) {
@@ -61,6 +70,7 @@ const Gameboard = (() => {
     addIndices,
     declareWinner,
     makeMove,
+    boardFull,
   };
 })();
 
@@ -105,7 +115,10 @@ function GameController() {
     Gameboard.makeMove(getActivePlayer(), index);
     console.log(Gameboard.getBoard());
 
+    console.log(Gameboard.declareWinner());
     switchPlayerTurn();
+
+    //call the check board full function in here
   };
 
   return {
@@ -115,8 +128,11 @@ function GameController() {
 }
 
 const game = GameController();
+game.playRound(0);
+game.playRound(1);
 game.playRound(3);
-game.playRound(2);
+game.playRound(4);
+game.playRound(6);
 
 /*
 const GameController = (() => {
