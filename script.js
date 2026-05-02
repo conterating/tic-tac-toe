@@ -19,16 +19,6 @@ const Gameboard = (() => {
     return board;
   }
 
-  function boardFull() {
-    const allFilled = board.every((element) => {
-      element != "";
-    });
-
-    if (allFilled) {
-      return true;
-    }
-  }
-
   function addIndices() {
     xIdxs = [];
     oIdxs = [];
@@ -47,6 +37,7 @@ const Gameboard = (() => {
     for (let arr in winningIdxs) {
       let xWins = winningIdxs[arr].every((val) => xIdxs.includes(val));
       let oWins = winningIdxs[arr].every((val) => oIdxs.includes(val));
+      const allFilled = board.every((element) => element != "");
 
       if (xWins === true) {
         winner = "X's Win!!!!";
@@ -54,8 +45,9 @@ const Gameboard = (() => {
       } else if (oWins === true) {
         winner = "O's Win!!!";
         return winner;
-      } else if (boardFull() === true) {
+      } else if (allFilled === true) {
         winner = "draw";
+        return winner;
       }
     }
   }
@@ -73,7 +65,6 @@ const Gameboard = (() => {
     addIndices,
     declareWinner,
     makeMove,
-    boardFull,
   };
 })();
 
