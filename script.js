@@ -30,6 +30,9 @@ const Gameboard = (() => {
   }
 
   function addIndices() {
+    xIdxs = [];
+    oIdxs = [];
+
     for (let i = 0; i < board.length; i++) {
       if (board[i] == "x") {
         xIdxs.push(i);
@@ -45,13 +48,13 @@ const Gameboard = (() => {
       let xWins = winningIdxs[arr].every((val) => xIdxs.includes(val));
       let oWins = winningIdxs[arr].every((val) => oIdxs.includes(val));
 
-      if (xWins) {
+      if (xWins === true) {
         winner = "X's Win!!!!";
         return winner;
-      } else if (oWins) {
+      } else if (oWins === true) {
         winner = "O's Win!!!";
         return winner;
-      } else if (boardFull()) {
+      } else if (boardFull() === true) {
         winner = "draw";
       }
     }
@@ -117,7 +120,6 @@ function GameController() {
 
     console.log(Gameboard.declareWinner());
     switchPlayerTurn();
-
     //call the check board full function in here
   };
 
@@ -141,25 +143,33 @@ function ScreenController() {
     boardDiv.textContent = "";
 
     const board = game.getBoard();
-    let activePlayer = game.getActivePlayer();
 
-    turnDiv.textContent = activePlayer.getName();
+    turnDiv.textContent = game.getActivePlayer().getName();
 
     for (let i = 0; i < board.length; i++) {
       const gridSquare = document.createElement("button");
       gridSquare.classList.add("square");
-      gridSquare.setAttribute("square-id", i);
+      gridSquare.setAttribute("data-square-id", i);
+      gridSquare.textContent = board[i];
 
       boardDiv.append(gridSquare);
     }
   }
 
-  function clickHandlerBoard() {
-    //next here
+  function clickBoardHandler(e) {
+    if (e.target.textContent == "") {
+      e.target.textContent = game.getActivePlayer().getSide();
+      console.log(game.getActivePlayer().getSide());
+      game.playRound(e.target.getAttribute("data-square-id"));
+    }
   }
 
-  return { updateScreen };
+  updateScreen();
+
+  const gridSquares = document.querySelectorAll(".square");
+  gridSquares.forEach((element) => {
+    element.addEventListener("click", clickBoardHandler);
+  });
 }
 
-const screen = ScreenController();
-screen.updateScreen();
+ScreenController();
