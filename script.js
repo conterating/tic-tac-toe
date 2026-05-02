@@ -40,10 +40,10 @@ const Gameboard = (() => {
       const allFilled = board.every((element) => element != "");
 
       if (xWins === true) {
-        winner = "X's Win!!!!";
+        winner = "x";
         return winner;
       } else if (oWins === true) {
-        winner = "O's Win!!!";
+        winner = "o";
         return winner;
       } else if (allFilled === true) {
         winner = "draw";
@@ -97,6 +97,8 @@ function GameController() {
   const player2 = createPlayer("Player 2", "o");
 
   const players = [player1, player2];
+  let xScoreTally = 0;
+  let oScoreTally = 0;
 
   let activePlayer = players[0];
 
@@ -114,11 +116,28 @@ function GameController() {
     );
 
     Gameboard.makeMove(getActivePlayer(), index);
-    console.log(Gameboard.getBoard());
 
-    console.log(Gameboard.declareWinner());
+    let winner = Gameboard.declareWinner();
+    console.log(`winner: ${winner}`);
+    if (winner == "x") {
+      xScoreTally += 1;
+    } else if (winner == "o") {
+      oScoreTally += 1;
+    }
+
+    console.log(`x tally: ${xScoreTally}`);
+    console.log(`o tally: ${oScoreTally}`);
+
     switchPlayerTurn();
     //call the check board full function in here
+  };
+
+  const getXScoreTally = () => {
+    return xScoreTally;
+  };
+
+  const getOScoreTally = () => {
+    return oScoreTally;
   };
 
   const getBoard = () => {
@@ -129,6 +148,8 @@ function GameController() {
     playRound,
     getActivePlayer,
     getBoard,
+    getXScoreTally,
+    getOScoreTally,
   };
 }
 
@@ -158,7 +179,6 @@ function ScreenController() {
   function clickBoardHandler(e) {
     if (e.target.textContent == "") {
       e.target.textContent = game.getActivePlayer().getSide();
-      console.log(game.getActivePlayer().getSide());
       game.playRound(e.target.getAttribute("data-square-id"));
 
       updateScreen();
