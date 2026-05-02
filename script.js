@@ -152,15 +152,21 @@ function ScreenController() {
       e.target.textContent = game.getActivePlayer().getSide();
       console.log(game.getActivePlayer().getSide());
       game.playRound(e.target.getAttribute("data-square-id"));
+
+      updateScreen();
     }
   }
 
   updateScreen();
 
+  boardDiv.addEventListener("click", clickBoardHandler);
+  /*
   const gridSquares = document.querySelectorAll(".square");
   gridSquares.forEach((element) => {
     element.addEventListener("click", clickBoardHandler);
   });
+
+  */
 }
 
 ScreenController();
