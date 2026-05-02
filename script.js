@@ -129,6 +129,7 @@ function GameController() {
     console.log(`o tally: ${oScoreTally}`);
 
     switchPlayerTurn();
+    return winner;
     //call the check board full function in here
   };
 
@@ -184,7 +185,10 @@ function ScreenController() {
   function clickBoardHandler(e) {
     if (e.target.textContent == "") {
       e.target.textContent = game.getActivePlayer().getSide();
-      game.playRound(e.target.getAttribute("data-square-id"));
+      let winner = game.playRound(e.target.getAttribute("data-square-id"));
+      if (winner == "x" || winner == "o") {
+        Gameboard.resetBoard();
+      }
 
       updateScreen();
     }
