@@ -60,11 +60,20 @@ const Gameboard = (() => {
     }
   }
 
+  function resetBoard() {
+    //learn how to write this function using array methods
+    //we should be able to modify the same array not create a new one
+    for (let i = 0; i < board.length; i++) {
+      board[i] = "";
+    }
+  }
+
   return {
     getBoard,
     addIndices,
     declareWinner,
     makeMove,
+    resetBoard,
   };
 })();
 
@@ -84,8 +93,6 @@ function createPlayer(name, side) {
 }
 
 function GameController() {
-  const board = Gameboard.getBoard();
-
   const player1 = createPlayer("Player 1", "x");
   const player2 = createPlayer("Player 2", "o");
 
@@ -129,6 +136,7 @@ function ScreenController() {
   const game = GameController();
   const boardDiv = document.querySelector(".board");
   const turnDiv = document.querySelector(".turn");
+  const resetButton = document.querySelector(".reset");
 
   function updateScreen() {
     boardDiv.textContent = "";
@@ -157,16 +165,16 @@ function ScreenController() {
     }
   }
 
+  function clickResetHandler() {
+    Gameboard.resetBoard();
+
+    updateScreen();
+  }
+
   updateScreen();
 
   boardDiv.addEventListener("click", clickBoardHandler);
-  /*
-  const gridSquares = document.querySelectorAll(".square");
-  gridSquares.forEach((element) => {
-    element.addEventListener("click", clickBoardHandler);
-  });
-
-  */
+  resetButton.addEventListener("click", clickResetHandler);
 }
 
 ScreenController();
