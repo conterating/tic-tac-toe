@@ -121,54 +121,45 @@ function GameController() {
     //call the check board full function in here
   };
 
+  const getBoard = () => {
+    return Gameboard.getBoard();
+  };
+
   return {
     playRound,
     getActivePlayer,
+    getBoard,
   };
 }
 
-const game = GameController();
-game.playRound(0);
-game.playRound(1);
-game.playRound(3);
-game.playRound(4);
-game.playRound(6);
+function ScreenController() {
+  const game = GameController();
+  const boardDiv = document.querySelector(".board");
+  const turnDiv = document.querySelector(".turn");
 
-/*
-const GameController = (() => {
-  //add GameController.playRound()
-  //active player functionality
+  function updateScreen() {
+    boardDiv.textContent = "";
 
-  const board = Gameboard.getBoard();
+    const board = game.getBoard();
+    let activePlayer = game.getActivePlayer();
 
-  const player1 = createPlayer("x");
-  const player2 = createPlayer("o");
+    turnDiv.textContent = activePlayer.getName();
 
-  player1.makeMove("0");
-  player2.makeMove("3");
-  player1.makeMove("5");
-  player2.makeMove("4");
-  player1.makeMove("8");
-  player2.makeMove("6");
-  player1.makeMove("7");
-  player2.makeMove("2");
-  player1.makeMove("1");
+    for (let i = 0; i < board.length; i++) {
+      const gridSquare = document.createElement("button");
+      gridSquare.classList.add("square");
+      gridSquare.setAttribute("square-id", i);
 
-  Gameboard.addIndices();
-
-  const filled = board.every((str) => str !== "");
-  if (filled) {
-    const winner = Gameboard.declareWinner();
-    console.log(winner);
-  } else {
-    console.log("board isnt full");
+      boardDiv.append(gridSquare);
+    }
   }
-})();
-*/
-const ScreenController = () => {
-  const board = Gameboard.getBoard();
 
-  function updateScreen() {}
+  function clickHandlerBoard() {
+    //next here
+  }
 
-  function clickHandlerBoard() {}
-};
+  return { updateScreen };
+}
+
+const screen = ScreenController();
+screen.updateScreen();
