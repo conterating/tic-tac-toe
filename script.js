@@ -158,6 +158,8 @@ function ScreenController() {
   const boardDiv = document.querySelector(".board");
   const turnDiv = document.querySelector(".turn");
   const resetButton = document.querySelector(".reset");
+  const xWinTallyDiv = document.querySelector(".x-wins-tally");
+  const oWinTallyDiv = document.querySelector(".o-wins-tally");
 
   function updateScreen() {
     boardDiv.textContent = "";
@@ -171,6 +173,9 @@ function ScreenController() {
       gridSquare.classList.add("square");
       gridSquare.setAttribute("data-square-id", i);
       gridSquare.textContent = board[i];
+
+      xWinTallyDiv.textContent = game.getXScoreTally();
+      oWinTallyDiv.textContent = game.getOScoreTally();
 
       boardDiv.append(gridSquare);
     }
